@@ -36,6 +36,10 @@ import Papa from 'papaparse';
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCi_G5IGBW41JYBzTg_--k4FSaYsC8mpaKm9RsCKf93pXtyT0mxdYUCSDpSllieY0T5bJdfgYr5ekj/pub?gid=1411541951&single=true&output=csv";
 
+// Logo.dev API for stock ticker logos
+const LOGO_API_KEY = "pk_cFuOaPlaTcW8wzBuF-zbsQ";
+const getTickerLogoUrl = (symbol) => `https://img.logo.dev/ticker/${symbol}?token=${LOGO_API_KEY}`;
+
 // Color palette
 const COLORS = {
   primary: '#6366f1',
@@ -319,7 +323,17 @@ const App = () => {
                 <Flame size={16} />
                 <span>Top Stock</span>
               </div>
-              <p className="text-2xl font-bold">{stats?.topStock?.symbol}</p>
+              <div className="flex items-center gap-3">
+                {stats?.topStock?.symbol && (
+                  <img 
+                    src={getTickerLogoUrl(stats.topStock.symbol)} 
+                    alt={stats.topStock.symbol}
+                    className="w-10 h-10 rounded-lg bg-white/20 object-contain"
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                )}
+                <p className="text-2xl font-bold">{stats?.topStock?.symbol}</p>
+              </div>
               <p className="text-emerald-200 text-sm mt-1">+{stats?.topStock?.return.toFixed(2)}% gain</p>
             </div>
           </div>
@@ -627,8 +641,16 @@ const App = () => {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-slate-600/50 flex items-center justify-center font-bold text-xs text-slate-300">
-                          {s.symbol.slice(0, 4)}
+                        <div className="w-10 h-10 rounded-lg bg-slate-600/50 flex items-center justify-center overflow-hidden">
+                          <img 
+                            src={getTickerLogoUrl(s.symbol)} 
+                            alt={s.symbol}
+                            className="w-full h-full object-contain p-1"
+                            onError={(e) => { 
+                              e.target.style.display = 'none'; 
+                              e.target.parentElement.innerHTML = `<span class="font-bold text-xs text-slate-300">${s.symbol.slice(0,4)}</span>`;
+                            }}
+                          />
                         </div>
                         <div>
                           <p className="font-semibold">{s.symbol}</p>
