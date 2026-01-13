@@ -403,8 +403,11 @@ const App = () => {
                       backgroundColor: '#1e293b', 
                       border: '1px solid #334155', 
                       borderRadius: '12px',
-                      boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+                      boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
+                      color: '#fff'
                     }}
+                    labelStyle={{ color: '#fff' }}
+                    itemStyle={{ color: '#fff' }}
                     formatter={(value) => [`${value.toFixed(2)}%`, 'Return']}
                   />
                   <Bar dataKey="return" radius={[0, 4, 4, 0]} maxBarSize={24}>
