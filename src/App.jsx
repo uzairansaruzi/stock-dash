@@ -414,8 +414,8 @@ const App = () => {
           </div>
 
           {/* Top 10 Stocks */}
-          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 max-h-[500px] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4 sticky top-0 bg-slate-800/90 backdrop-blur-sm -mx-6 px-6 py-2 -mt-2">
+          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-semibold text-lg">Top 10 Stocks</h3>
                 <p className="text-sm text-slate-400">Best performing picks</p>
@@ -449,8 +449,8 @@ const App = () => {
           </div>
 
           {/* Worst 10 Stocks */}
-          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 max-h-[500px] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4 sticky top-0 bg-slate-800/90 backdrop-blur-sm -mx-6 px-6 py-2 -mt-2">
+          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-semibold text-lg">Worst 10 Stocks</h3>
                 <p className="text-sm text-slate-400">Lowest performing picks</p>
