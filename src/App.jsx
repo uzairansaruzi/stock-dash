@@ -144,6 +144,8 @@ const App = () => {
           const symbol = stockRow[0]?.trim();
           const avgPrice = parseFloat((stockRow[2] || "0").replace(/[$,]/g, '')) || 0;
           const currentPrice = parseFloat((stockRow[3] || "0").replace(/[$,]/g, '')) || 0;
+          const dayChangeStr = stockRow[7] || "0%";
+          const dayChange = parseFloat(dayChangeStr.replace(/[%,]/g, '')) || 0;
           const growthStr = stockRow[9] || "0%";
           const growth = parseFloat(growthStr.replace(/[%,]/g, '')) || 0;
           const reason = stockRow[11] || "";
@@ -153,6 +155,7 @@ const App = () => {
               symbol,
               buyPrice: avgPrice,
               currentPrice: currentPrice,
+              dayChange: dayChange,
               return: growth,
               reason
             });
@@ -164,6 +167,7 @@ const App = () => {
             symbol,
             buyPrice: 0,
             currentPrice: 0,
+            dayChange: 0,
             return: totalReturnPct / stockSymbols.length
           });
         });
@@ -701,6 +705,9 @@ const App = () => {
                       <div className={`text-right`}>
                         <p className={`font-bold ${s.return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                           {s.return >= 0 ? '+' : ''}{s.return.toFixed(2)}%
+                        </p>
+                        <p className={`text-xs ${s.dayChange >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                          {s.dayChange >= 0 ? '+' : ''}{s.dayChange.toFixed(2)}% today
                         </p>
                       </div>
                     </div>
