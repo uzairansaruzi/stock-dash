@@ -413,53 +413,6 @@ const App = () => {
             </div>
           </div>
 
-          {/* Pie Chart */}
-          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="font-semibold text-lg">Win/Loss Ratio</h3>
-                <p className="text-sm text-slate-400">Participants in profit vs loss</p>
-              </div>
-              <PieChartIcon className="text-slate-400" size={20} />
-            </div>
-            <div className="h-52">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={50}
-                    outerRadius={80}
-                    paddingAngle={4}
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={index} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1e293b', 
-                      border: '1px solid #334155', 
-                      borderRadius: '12px' 
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex justify-center gap-6 mt-2">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-                <span className="text-sm text-slate-300">Profitable ({stats?.winnersCount})</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className="text-sm text-slate-300">In Loss ({stats?.losersCount})</span>
-              </div>
-            </div>
-          </div>
-
           {/* Top 10 Stocks */}
           <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 max-h-[500px] overflow-y-auto">
             <div className="flex items-center justify-between mb-4 sticky top-0 bg-slate-800/90 backdrop-blur-sm -mx-6 px-6 py-2 -mt-2">
@@ -752,7 +705,7 @@ const App = () => {
                       </div>
                     </div>
                     {s.reason && (
-                      <p className="text-xs text-slate-400 mt-2 line-clamp-2">{s.reason}</p>
+                      <p className="text-xs text-slate-400 mt-2">{s.reason}</p>
                     )}
                   </div>
                 ))}
