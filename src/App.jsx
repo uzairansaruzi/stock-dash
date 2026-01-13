@@ -360,12 +360,12 @@ const App = () => {
               </div>
               <BarChart3 className="text-slate-400" size={20} />
             </div>
-            <div className="h-72">
+            <div className="h-[500px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} layout="vertical" margin={{ left: 60, right: 20 }}>
+                <BarChart data={chartData} layout="vertical" margin={{ left: 80, right: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={true} vertical={false} />
                   <XAxis type="number" tickFormatter={(v) => `${v}%`} stroke="#64748b" fontSize={12} />
-                  <YAxis type="category" dataKey="name" stroke="#64748b" fontSize={11} width={55} />
+                  <YAxis type="category" dataKey="name" stroke="#64748b" fontSize={12} width={75} interval={0} />
                   <Tooltip 
                     contentStyle={{ 
                       backgroundColor: '#1e293b', 
