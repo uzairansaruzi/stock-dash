@@ -200,6 +200,16 @@ const App = () => {
       ? allStocks.reduce((prev, curr) => (prev.return < curr.return) ? prev : curr, allStocks[0])
       : null;
 
+    // Get top 5 unique stocks by return
+    const uniqueStocks = allStocks.reduce((acc, stock) => {
+      const existing = acc.find(s => s.symbol === stock.symbol);
+      if (!existing || stock.return > existing.return) {
+        return [...acc.filter(s => s.symbol !== stock.symbol), stock];
+      }
+      return acc;
+    }, []);
+    const top5Stocks = [...uniqueStocks].sort((a, b) => b.return - a.return).slice(0, 5);
+
     const dayMover = [...data].sort((a, b) => b.dayChange - a.dayChange)[0];
     const totalPortfolioValue = data.reduce((sum, p) => sum + p.portfolioValue, 0);
     const totalPnL = data.reduce((sum, p) => sum + p.totalPnL, 0);
@@ -209,6 +219,7 @@ const App = () => {
       bottomPerformer: data[data.length - 1],
       topStock,
       worstStock,
+      top5Stocks,
       dayMover,
       avgReturn: data.reduce((sum, p) => sum + p.totalReturnPct, 0) / data.length,
       totalPortfolioValue,
@@ -364,7 +375,7 @@ const App = () => {
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
           {/* Performance Bar Chart */}
           <div className="lg:col-span-2 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
             <div className="flex items-center justify-between mb-6">
@@ -443,6 +454,46 @@ const App = () => {
                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                 <span className="text-sm text-slate-300">In Loss ({stats?.losersCount})</span>
               </div>
+            </div>
+          </div>
+
+          {/* Top 5 Stocks */}
+          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="font-semibold text-lg">Top 5 Stocks</h3>
+                <p className="text-sm text-slate-400">Best performing picks</p>
+              </div>
+              <Flame className="text-emerald-400" size={20} />
+            </div>
+            <div className="space-y-3">
+              {stats?.top5Stocks?.map((stock, idx) => (
+                <div key={stock.symbol} className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-slate-600/50 flex items-center justify-center text-sm font-bold text-slate-400">
+                      {idx + 1}
+                    </div>
+                    <div className="w-10 h-10 rounded-lg bg-slate-600/50 flex items-center justify-center overflow-hidden">
+                      <img 
+                        src={getTickerLogoUrl(stock.symbol)} 
+                        alt={stock.symbol}
+                        className="w-full h-full object-contain p-1"
+                        onError={(e) => { 
+                          e.target.style.display = 'none'; 
+                          e.target.parentElement.innerHTML = `<span class="font-bold text-xs text-slate-300">${stock.symbol.slice(0,4)}</span>`;
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <p className="font-semibold">{stock.symbol}</p>
+                      <p className="text-xs text-slate-400">${stock.currentPrice?.toFixed(2) || '0.00'}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-emerald-400">+{stock.return.toFixed(2)}%</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
