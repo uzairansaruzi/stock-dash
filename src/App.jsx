@@ -375,7 +375,10 @@ const App = () => {
                 <DollarSign size={16} />
                 <span>Total P&L</span>
               </div>
-              <p className="text-2xl font-bold">${(stats?.totalPnL / 1000).toFixed(1)}K</p>
+              <p className="text-2xl font-bold">
+                ${(stats?.totalPnL / 1000).toFixed(1)}K
+                <span className="text-lg ml-2">({((stats?.totalPnL || 0) / (data.length * 10000) * 100).toFixed(2)}%)</span>
+              </p>
               <p className="text-purple-200 text-sm mt-1">{stats?.winnersCount} winners, {stats?.losersCount} losers</p>
             </div>
           </div>
