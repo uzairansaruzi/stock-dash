@@ -225,6 +225,16 @@ const App = () => {
       ? allStocks.reduce((prev, curr) => (prev.dayChange > curr.dayChange) ? prev : curr, allStocks[0])
       : null;
 
+    // Find most common tickers across all portfolios
+    const tickerCounts = allStocks.reduce((acc, stock) => {
+      acc[stock.symbol] = (acc[stock.symbol] || 0) + 1;
+      return acc;
+    }, {});
+    const mostCommonTickers = Object.entries(tickerCounts)
+      .map(([symbol, count]) => ({ symbol, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
     return {
       topPerformer: data[0],
       bottomPerformer: data[data.length - 1],
@@ -233,6 +243,7 @@ const App = () => {
       top10Stocks,
       worst10Stocks,
       topDayStock,
+      mostCommonTickers,
       dayMover,
       avgReturn: data.reduce((sum, p) => sum + p.totalReturnPct, 0) / data.length,
       totalPortfolioValue,
@@ -413,7 +424,7 @@ const App = () => {
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
           {/* Performance Bar Chart */}
           <div className="lg:col-span-2 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
             <div className="flex items-center justify-between mb-6">
@@ -518,6 +529,41 @@ const App = () => {
                   <p className={`font-bold text-sm ${stock.return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                     {stock.return >= 0 ? '+' : ''}{stock.return.toFixed(1)}%
                   </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Most Common Tickers */}
+          <div className="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="font-semibold text-lg">Most Common</h3>
+                <p className="text-sm text-slate-400">Popular picks</p>
+              </div>
+              <Users className="text-indigo-400" size={20} />
+            </div>
+            <div className="space-y-2">
+              {stats?.mostCommonTickers?.map((ticker, idx) => (
+                <div key={ticker.symbol} className="flex items-center justify-between p-2.5 bg-slate-700/30 rounded-xl hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md bg-indigo-500/20 flex items-center justify-center text-xs font-bold text-indigo-400">
+                      {idx + 1}
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-slate-600/50 flex items-center justify-center overflow-hidden">
+                      <img 
+                        src={getTickerLogoUrl(ticker.symbol)} 
+                        alt={ticker.symbol}
+                        className="w-full h-full object-contain p-0.5"
+                        onError={(e) => { 
+                          e.target.style.display = 'none'; 
+                          e.target.parentElement.innerHTML = `<span class="font-bold text-xs text-slate-300">${ticker.symbol.slice(0,3)}</span>`;
+                        }}
+                      />
+                    </div>
+                    <p className="font-semibold text-sm">{ticker.symbol}</p>
+                  </div>
+                  <p className="font-bold text-indigo-400 text-sm">{ticker.count} picks</p>
                 </div>
               ))}
             </div>
