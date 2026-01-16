@@ -220,6 +220,11 @@ const App = () => {
     const totalPortfolioValue = data.reduce((sum, p) => sum + p.portfolioValue, 0);
     const totalPnL = data.reduce((sum, p) => sum + p.totalPnL, 0);
 
+    // Find top performing stock of the day
+    const topDayStock = allStocks.length > 0
+      ? allStocks.reduce((prev, curr) => (prev.dayChange > curr.dayChange) ? prev : curr, allStocks[0])
+      : null;
+
     return {
       topPerformer: data[0],
       bottomPerformer: data[data.length - 1],
@@ -227,6 +232,7 @@ const App = () => {
       worstStock,
       top10Stocks,
       worst10Stocks,
+      topDayStock,
       dayMover,
       avgReturn: data.reduce((sum, p) => sum + p.totalReturnPct, 0) / data.length,
       totalPortfolioValue,
@@ -321,7 +327,7 @@ const App = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
           <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl p-5 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
             <div className="relative">
@@ -365,6 +371,28 @@ const App = () => {
               </div>
               <p className="text-2xl font-bold">{stats?.dayMover?.name}</p>
               <p className="text-orange-200 text-sm mt-1">{stats?.dayMover?.dayChange >= 0 ? '+' : ''}{stats?.dayMover?.dayChange.toFixed(2)}% today</p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-2xl p-5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+            <div className="relative">
+              <div className="flex items-center gap-2 text-cyan-200 text-sm mb-1">
+                <TrendingUp size={16} />
+                <span>Hot Stock Today</span>
+              </div>
+              <div className="flex items-center gap-3">
+                {stats?.topDayStock?.symbol && (
+                  <img 
+                    src={getTickerLogoUrl(stats.topDayStock.symbol)} 
+                    alt={stats.topDayStock.symbol}
+                    className="w-10 h-10 rounded-lg bg-white/20 object-contain"
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                )}
+                <p className="text-2xl font-bold">{stats?.topDayStock?.symbol}</p>
+              </div>
+              <p className="text-cyan-200 text-sm mt-1">{stats?.topDayStock?.dayChange >= 0 ? '+' : ''}{stats?.topDayStock?.dayChange.toFixed(2)}% today</p>
             </div>
           </div>
 
