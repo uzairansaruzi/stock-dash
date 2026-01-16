@@ -12,9 +12,9 @@ The **2026 Stock Competition** is a portfolio tracking application where partici
 
 - **Live Leaderboard** - Real-time rankings of all participants
 - **Performance Charts** - Visual comparison of returns across participants
-- **Stock Analytics** - Top 10 and Worst 10 performing stock picks
+- **Stock Analytics** - Top 10, Worst 10, and Most Common stock picks
 - **Individual Portfolios** - Detailed view of each participant's holdings
-- **Key Statistics** - Total P&L, average returns, day movers, and more
+- **Key Statistics** - Total P&L, average returns, hot stocks, day movers, and more
 
 ## ✨ Features
 
@@ -22,10 +22,11 @@ The **2026 Stock Competition** is a portfolio tracking application where partici
 
 | Component | Description |
 |-----------|-------------|
-| **Stats Cards** | Quick view of leader, top stock, day's mover, and total P&L |
+| **Stats Cards** | Quick view of leader, top stock, day's mover, hot stock today, and total P&L with percentage |
 | **Performance Chart** | Horizontal bar chart showing all participants' returns |
 | **Top 10 Stocks** | Best performing stocks across all portfolios |
 | **Worst 10 Stocks** | Lowest performing stocks for awareness |
+| **Most Common Tickers** | Most popular stock picks across all participants |
 | **Leaderboard Table** | Sortable table with rankings, portfolio values, returns, and P&L |
 | **Participant Modal** | Detailed breakdown of individual holdings with buy/current prices |
 
