@@ -74,6 +74,22 @@ const App = () => {
     return false;
   });
 
+  // Mobile state for responsive charts
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 640;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -477,8 +493,16 @@ const App = () => {
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fill: isDarkMode ? '#8E8E93' : '#8E8E93', fontSize: 12 }} 
-                  dy={10}
+                  interval={0}
+                  tick={{ 
+                    fill: isDarkMode ? '#8E8E93' : '#8E8E93', 
+                    fontSize: 12,
+                    angle: isMobile ? -90 : 0,
+                    textAnchor: isMobile ? 'end' : 'middle'
+                  }} 
+                  dy={isMobile ? 0 : 10}
+                  dx={isMobile ? -5 : 0}
+                  height={isMobile ? 80 : 30}
                 />
                 <YAxis 
                   axisLine={false} 
